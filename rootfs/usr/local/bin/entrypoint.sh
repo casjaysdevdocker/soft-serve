@@ -31,9 +31,9 @@ __exec_command() {
   return ${exitCode:-$?}
 }
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-__pcheck() { [ -n "$(which pgrep 2>/dev/null)" ] && pgrep -x "$1" || return 1; }
+__curl() { curl -q -LSsf -o /dev/null "$@" 2>/dev/null || return 10; }
 __find() { find "$1" -mindepth 1 -type ${2:-f,d} 2>/dev/null | grep '^' || return 10; }
-__curl() { curl -q -LSsf -o /dev/null -s -w "200" "$@" 2>/dev/null || return 10; }
+__pcheck() { [ -n "$(which pgrep 2>/dev/null)" ] && pgrep -x "$1" &>/dev/null || return 10; }
 __pgrep() { __pcheck "${1:-$SERVICE_NAME}" || ps aux 2>/dev/null | grep -Fw " ${1:-$SERVICE_NAME}" | grep -qv ' grep' || return 10; }
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 __certbot() {
@@ -45,7 +45,7 @@ __certbot() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 __heath_check() {
   status=0 health="Good"
-  start-soft.sh healthcheck || status=$((status + 1))
+  start-soft.sh healthcheck &>/dev/null || status=$((status + 1))
   [ "$status" -eq 0 ] || health="Errors reported see docker logs --follow $CONTAINER_NAME"
   echo "$(uname -s) $(uname -m) is running and the health is: $health"
   return ${status:-$?}

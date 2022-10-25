@@ -45,7 +45,7 @@ __certbot() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 __heath_check() {
   status=0 health="Good"
-  start-soft-serve.sh healthcheck || status=$((status + 1))
+  start-soft.sh healthcheck || status=$((status + 1))
   [ "$status" -eq 0 ] || health="Errors reported see docker logs --follow $CONTAINER_NAME"
   echo "$(uname -s) $(uname -m) is running and the health is: $health"
   return ${status:-$?}

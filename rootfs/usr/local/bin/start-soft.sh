@@ -5,10 +5,10 @@
 # @@Author           :  Jason Hempstead
 # @@Contact          :  jason@casjaysdev.com
 # @@License          :  WTFPL
-# @@ReadME           :  start-soft-serve.sh --help
+# @@ReadME           :  start-soft.sh --help
 # @@Copyright        :  Copyright: (c) 2022 Jason Hempstead, Casjays Developments
 # @@Created          :  Tuesday, Oct 25, 2022 17:48 EDT
-# @@File             :  start-soft-serve.sh
+# @@File             :  start-soft.sh
 # @@Description      :  script to start soft-serve
 # @@Changelog        :  New script
 # @@TODO             :  Better documentation

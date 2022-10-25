@@ -91,7 +91,7 @@ ENV LANG=en_US.UTF-8 \
 COPY --from=build /. /
 
 USER root
-WORKDIR /root
+WORKDIR /data/soft/repos
 
 VOLUME [ "/config","/data" ]
 

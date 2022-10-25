@@ -159,7 +159,7 @@ certbot)
     echo "$SERVICE_NAME is running"
   else
     touch "/tmp/$SERVICE_NAME.pid"
-    cd "/config/soft" || exit
+    cd "/data/soft/repos" || exit
     echo "$start_message"
     __exec_command "$SERVICE_COMMAND" || rm -Rf "/tmp/$SERVICE_NAME.pid"
   fi

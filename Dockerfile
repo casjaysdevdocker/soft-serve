@@ -7,7 +7,7 @@ ARG DEFAULT_DATA_DIR="/usr/local/share/template-files/data" \
   DEFAULT_CONF_DIR="/usr/local/share/template-files/config" \
   DEFAULT_TEMPLATE_DIR="/usr/local/share/template-files/defaults"
 
-ARG PACK_LIST="bash"
+ARG PACK_LIST="bash git"
 
 ENV LANG=en_US.UTF-8 \
   ENV=ENV=~/.bashrc \
@@ -16,7 +16,7 @@ ENV LANG=en_US.UTF-8 \
   TERM="xterm-256color" \
   TIMEZONE="${TZ:-$TIMEZONE}" \
   HOSTNAME="casjaysdev-soft-serve" \
-  SOFT_SERVE_VERSION="${SOFT_SERVE_VERSION:-0.4.0}"
+  SOFT_SERVE_VERSION="${SOFT_SERVE_VERSION}"
 
 COPY ./rootfs/. /
 
@@ -45,8 +45,8 @@ RUN echo 'Running cleanup' ; \
 FROM scratch
 
 ARG \
-  SERVICE_PORT="80" \
-  EXPOSE_PORTS="80" \
+  SERVICE_PORT="23231" \
+  EXPOSE_PORTS="23231" \
   PHP_SERVER="soft-serve" \
   NODE_VERSION="system" \
   NODE_MANAGER="system" \

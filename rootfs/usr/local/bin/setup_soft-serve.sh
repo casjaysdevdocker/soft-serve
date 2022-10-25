@@ -24,10 +24,10 @@ SOFT_SERVE_VERSION="${SOFT_SERVE_VERSION:-0.4.0}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ "$OS_ARCH" = "aarch64" ]; then
   FILE="/tmp/soft-serve.${OS_ARCH}tar.gz"
-  URL="https://github.com/charmbracelet/soft-serve/releases/latest/soft-serve_${SOFT_SERVE_VERSION}_linux_arm64.tar.gz"
+  URL="https://github.com/charmbracelet/soft-serve/releases/download/v${SOFT_SERVE_VERSION}/soft-serve_${SOFT_SERVE_VERSION}_linux_arm64.tar.gz"
 elif [ "$OS_ARCH" = "x86_64" ]; then
   FILE="/tmp/soft-serve.${OS_ARCH}tar.gz"
-  URL="https://github.com/charmbracelet/soft-serve/releases/download/v0.4.0/soft-serve_${SOFT_SERVE_VERSION}_linux_x86_64.tar.gz"
+  URL="https://github.com/charmbracelet/soft-serve/releases/download/v${SOFT_SERVE_VERSION}/soft-serve_${SOFT_SERVE_VERSION}_linux_x86_64.tar.gz"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Main application

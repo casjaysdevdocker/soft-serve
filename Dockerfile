@@ -1,13 +1,12 @@
 FROM casjaysdevdocker/alpine:latest AS build
 
 ARG ALPINE_VERSION="v3.16"
-ARG SOFT_SERVE_VERSION="0.4.0"
 
 ARG DEFAULT_DATA_DIR="/usr/local/share/template-files/data" \
   DEFAULT_CONF_DIR="/usr/local/share/template-files/config" \
   DEFAULT_TEMPLATE_DIR="/usr/local/share/template-files/defaults"
 
-ARG PACK_LIST="bash git"
+ARG PACK_LIST="bash"
 
 ENV LANG=en_US.UTF-8 \
   ENV=ENV=~/.bashrc \
@@ -15,8 +14,7 @@ ENV LANG=en_US.UTF-8 \
   SHELL="/bin/sh" \
   TERM="xterm-256color" \
   TIMEZONE="${TZ:-$TIMEZONE}" \
-  HOSTNAME="casjaysdev-soft-serve" \
-  SOFT_SERVE_VERSION="${SOFT_SERVE_VERSION}"
+  HOSTNAME="casjaysdev-soft-serve"
 
 COPY ./rootfs/. /
 
@@ -27,10 +25,9 @@ RUN set -ex; \
   echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/community" >>"/etc/apk/repositories"; \
   if [ "${ALPINE_VERSION}" = "edge" ]; then echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/testing" >>"/etc/apk/repositories" ; fi ; \
   apk update --update-cache && apk add --no-cache ${PACK_LIST} && \
-  setup_soft-serve.sh
+  echo
 
 RUN echo 'Running cleanup' ; \
-  rm -Rf /usr/local/bin/setup_soft-serve.sh ; \
   rm -Rf /usr/share/doc/* /usr/share/info/* /tmp/* /var/tmp/* ; \
   rm -Rf /usr/local/bin/.gitkeep /usr/local/bin/.gitkeep /config /data /var/cache/apk/* ; \
   rm -rf /lib/systemd/system/multi-user.target.wants/* ; \
@@ -45,15 +42,15 @@ RUN echo 'Running cleanup' ; \
 FROM scratch
 
 ARG \
-  SERVICE_PORT="23231" \
-  EXPOSE_PORTS="23231" \
+  SERVICE_PORT="80" \
+  EXPOSE_PORTS="80" \
   PHP_SERVER="soft-serve" \
   NODE_VERSION="system" \
   NODE_MANAGER="system" \
   BUILD_VERSION="latest" \
   LICENSE="MIT" \
   IMAGE_NAME="soft-serve" \
-  BUILD_DATE="Tue Oct 25 05:48:26 PM EDT 2022" \
+  BUILD_DATE="Sun Nov 13 12:19:52 PM EST 2022" \
   TIMEZONE="America/New_York"
 
 LABEL maintainer="CasjaysDev <docker-admin@casjaysdev.com>" \
@@ -83,15 +80,12 @@ ENV LANG=en_US.UTF-8 \
   CONTAINER_NAME="${IMAGE_NAME}" \
   TZ="${TZ:-America/New_York}" \
   TIMEZONE="${TZ:-$TIMEZONE}" \
-  HOSTNAME="casjaysdev-${IMAGE_NAME}" \
-  SOFT_SERVE_REPO_PATH="/data/soft/repos" \
-  SOFT_SERVE_KEY_PATH="/config/ssh/soft_serve_server_ed25519" \
-  SOFT_SERVE_INITIAL_ADMIN_KEY=""
+  HOSTNAME="casjaysdev-${IMAGE_NAME}"
 
 COPY --from=build /. /
 
 USER root
-WORKDIR /data/soft/repos
+WORKDIR /root
 
 VOLUME [ "/config","/data" ]
 
@@ -100,3 +94,4 @@ EXPOSE $EXPOSE_PORTS
 #CMD [ "" ]
 ENTRYPOINT [ "tini", "-p", "SIGTERM", "--", "/usr/local/bin/entrypoint.sh" ]
 HEALTHCHECK --start-period=1m --interval=2m --timeout=3s CMD [ "/usr/local/bin/entrypoint.sh", "healthcheck" ]
+

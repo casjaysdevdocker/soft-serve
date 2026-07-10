@@ -19,8 +19,8 @@ dockermgr update soft-serve
 ## Install and run container
   
 ```shell
-dockerHome="/var/lib/srv/$USER/docker/casjaysdevdocker/soft-serve/soft-serve/latest/rootfs"
-mkdir -p "/var/lib/srv/$USER/docker/soft-serve/rootfs"
+dockerHome="/srv/$USER/docker/casjaysdevdocker/soft-serve/soft-serve/latest/rootfs"
+mkdir -p "/srv/$USER/docker/soft-serve/rootfs"
 git clone "https://github.com/dockermgr/soft-serve" "$HOME/.local/share/CasjaysDev/dockermgr/soft-serve"
 cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/soft-serve/rootfs/." "$dockerHome/"
 docker run -d \
@@ -47,8 +47,8 @@ services:
       - TZ=America/New_York
       - HOSTNAME=soft-serve
     volumes:
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/soft-serve/soft-serve/latest/rootfs/data:/data:z"
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/soft-serve/soft-serve/latest/rootfs/config:/config:z"
+      - "/srv/$USER/docker/casjaysdevdocker/soft-serve/soft-serve/latest/rootfs/data:/data:z"
+      - "/srv/$USER/docker/casjaysdevdocker/soft-serve/soft-serve/latest/rootfs/config:/config:z"
     ports:
       - 80:80
     restart: always
